@@ -127,7 +127,7 @@ const placeOrder = async () => {
             app_id: 100000,
             user_id: config.userId,
             server_id: config.serverId,
-            email: email,
+            email: config.email,
             shop_id: 1001,
             amount_pay: 141000,
             currency_code: 'IDR',

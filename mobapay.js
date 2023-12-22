@@ -11,9 +11,10 @@ require('dotenv').config();
 const config = {
     token: process.env.TOKEN,
     email: process.env.EMAIL,
-    userId: process.env.USER_ID,
-    serverId: process.env.SERVER_ID,
+    userId: parseInt(process.env.USER_ID),
+    serverId: parseInt(process.env.SERVER_ID),
 }
+console.log(config);
 
 const getTokenFromFile = (filePath) => {
     try {
@@ -121,13 +122,12 @@ const placeOrder = async () => {
         .build();
     try {
         const token = getTokenFromFile(tokenFilePath);
-        console.log(token);
 
         const response = await axios.post('https://api.mobapay.com/pay/order', {
             app_id: 100000,
             user_id: config.userId,
             server_id: config.serverId,
-            email: email,
+            email: config.email,
             shop_id: 1001,
             amount_pay: 141000,
             currency_code: 'IDR',
@@ -163,6 +163,14 @@ const placeOrder = async () => {
             }
         });
 
+        console.log(response.data)
+
+        if(!response.data.data) {
+            console.log('Error placing order:', response.data.message);
+            await driver.quit();
+            return 0;
+        }
+
         const orderId = response.data.data.order_id;
         const paymentReturn = await axios.post('https://api.mobapay.com/pay/order/payment', {
             net: '',
@@ -182,7 +190,7 @@ const placeOrder = async () => {
             // await driver.wait(webdriver.until.elementLocated(webdriver.By.xpath('//*[@id="qrcode"]/img')), 10000)
             // await driver.wait(webdriver.until.elementLocated(webdriver.By.xpath('/html/body/div[3]/div/div[6]/div[3]/div/button')), 10000);
             const qrCodeImageUrl = await driver.findElement(webdriver.By.xpath('//*[@id="qrcode"]/img')).getAttribute('src');
-            console.log(qrCodeImageUrl);
+            console.log('qrCodeImageUrl:', qrCodeImageUrl);
             const getQrCode = await axios.get(qrCodeImageUrl, {responseType: 'arraybuffer'});
             // qrCode.generate(qrCodeImageUrl, {small: true});
             fs.writeFileSync('./qr.png', getQrCode.data);
@@ -233,6 +241,7 @@ const placeOrder = async () => {
         }
         
         await driver.quit();
+        return 1;
         
     } catch (error) {
         console.error('Error placing order:', error.message);

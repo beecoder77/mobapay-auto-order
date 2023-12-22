@@ -17,6 +17,11 @@ USER_ID=userId_mobile_legend_kamu
 SERVER_ID=serverId_mobile_legend_kamu
 ```
 
+# USAGE
+```bash
+node mobapay.js
+```
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first

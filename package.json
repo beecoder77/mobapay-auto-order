@@ -1,0 +1,24 @@
+{
+  "name": "mobapay-auto-order",
+  "version": "1.0.0",
+  "description": "mobapay auto order by beecoder77",
+  "main": "mobapay.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mobapay",
+    "beecoder77"
+  ],
+  "author": "beecoder77",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "jimp": "^0.22.10",
+    "node-cron": "^3.0.3",
+    "qrcode-reader": "^1.0.4",
+    "qrcode-terminal": "^0.12.0",
+    "selenium-webdriver": "^4.16.0"
+  }
+}
